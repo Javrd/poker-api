@@ -1,0 +1,20 @@
+{
+  "name": "poker-hands",
+  "version": "1.0.0",
+  "description": "This API has been done expecting to fulfill the mandatory challenge MC01 of ISADevDays17",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node --inspect=0.0.0.0:5858 index.js"
+  },
+  "keywords": [
+    "swagger"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.16.2",
+    "js-yaml": "^3.3.0",
+    "swagger-tools": "0.10.1"
+  }
+}

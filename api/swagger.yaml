@@ -1,0 +1,96 @@
+---
+swagger: "2.0"
+info:
+  description: "This API has been done expecting to fulfill the mandatory challenge\
+    \ MC01 of ISADevDays17"
+  version: "1.0.0"
+  title: "Poker Hands"
+  contact:
+    email: "JaviSoftEng@gmail.com"
+  license:
+    name: "MIT"
+    url: "http://www.tldrlegal.com/l/mit"
+host: "localhost:8080"
+basePath: "/docs/API"
+tags:
+- name: "game"
+  description: "Model a poker game"
+schemes:
+- "http"
+paths:
+  /hand:
+    post:
+      tags:
+      - "game"
+      summary: "Ask for the winner of a game."
+      description: "The result of asking for a winner with this metthod could be a\
+        \ winner and the quantity earned by them, draw, or a warning about a spoiled\
+        \ game."
+      operationId: "getWinner"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Game object that contains an array with plays that are being\
+          \ played"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/Game"
+          example: 
+      responses:
+        400:
+          description: "Invalid input"
+      x-swagger-router-controller: "Game"
+definitions:
+  Game:
+    type: "object"
+    required:
+    - "plays"
+    - "jackpot"
+    properties:
+      plays:
+        type: "array"
+        items:
+          $ref: "#/definitions/Play"
+        minItems: 2
+      jackpot:
+        type: "integer"
+        example: 10000
+  Play:
+    type: "object"
+    required:
+    - "bet"
+    - "cards"
+    - "player"
+    properties:
+      player:
+        type: "string"
+        example: "Cristiano"
+      bet:
+        type: "integer"
+        example: 1000
+      cards:
+        type: "array"
+        items:
+          $ref: "#/definitions/Card"
+        minItems: 5
+        maxItems: 5
+  Card:
+    type: "object"
+    required:
+    - "suit"
+    - "value"
+    properties:
+      value:
+        type: "string"
+        example: "5"
+        pattern: "^([2-9JQKA]|10)$"
+      suit:
+        type: "string"
+        example: "H"
+        pattern: "^[CDHS]$"
