@@ -132,7 +132,7 @@ const getResult = (cards) => {
   flush = isFlush(cards, values);
 
   if (straight && flush) { // Straight Flush
-    result = { result: 9, values: straight.value };
+    result = { score: 9, values: straight.value };
   } else if (flush) {
     result = (flush);
   } else if (straight) {
@@ -170,13 +170,14 @@ const isFlush = (cards, values) => {
   return { score: 6, values: values };
 }
 
-const isStraight = (values) => {
+const isStraight = (cardsValues) => {
   let result;
+  let values = cardsValues.map( x => rank.indexOf(x));
   let value = values[0];
 
   result = { score: 5, values: [value[0]] }
   for (let i = 1; i < values.length; i++) {
-    if (values[i] != value + 1) {
+    if (values[i] != value - 1) {
       result = false;
       break;
     }
