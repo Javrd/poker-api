@@ -88,9 +88,9 @@ const compareCards = (x, y) => {
   }
 
   if (xRank > yRank) {
-    return -1;
-  } else if (xRank < yRank) {
     return 1;
+  } else if (xRank < yRank) {
+    return -1;
   } else {
     return 0;
   }
@@ -125,7 +125,7 @@ const getResult = (cards) => {
   let values;
 
   cards.sort(compareCards);       // We use the order of cards on the below methods
-                                  // that get the kind of the hand.
+  cards.reverse();                // that get the kind of the hand.
   values = cards.map(x => x.value)
   
   straight = isStraight(values);
