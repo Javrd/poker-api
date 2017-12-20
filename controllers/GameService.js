@@ -121,7 +121,7 @@ const compareResults = (x, y) => {
 const getResult = (cards) => {
 
   let result;
-  let straight, flush, fourOfAKind, threeOfAKind, twoPair, onePair;
+  let straight, flush, fourOfAKind, threeOfAKindOrFull, twoPair, onePair;
   let values;
 
   cards.sort(compareCards);       // We use the order of cards on the below methods
@@ -139,20 +139,14 @@ const getResult = (cards) => {
     result = straight;
   } else if (fourOfAKind = isFourOfAKind(values)) {
     result = fourOfAKind;
-  } else {
-    threeOfAKind = isThreeOfAKind(values);
-    onePair = isOnePair(values);
-    if (threeOfAKind && onePair) { // Full
-      result = { score: 7, values: threeOfAKind.value };
-    } else if (threeOfAKind) {
-      result = threeOfAKind;
-    } else if (twoPair = isTwoPair(values)) {
-      result = twoPair;
-    } else if (onePair) {
-      result = onePair;
-    } else { // Greater card
-      result = { score: 1, values: values };
-    }
+  } else if (threeOfAKindOrFull = isThreeOfAKindOrFull(values)) {
+    result = threeOfAKindOrFull;
+  } else if (twoPair = isTwoPair(values)) {
+    result = twoPair;
+  } else if (onePair = isOnePair(values)) {
+    result = onePair;
+  } else { // Greater card
+    result = { score: 1, values: values };
   }
   return result;
 }
@@ -243,7 +237,7 @@ const isTwoPair = (values) => {
   return result;
 }
 
-const isThreeOfAKind = (values) => {
+const isThreeOfAKindOrFull = (values) => {
   let result;
 
   if (values[0] === values[2]) {          // PPPXY
@@ -264,6 +258,14 @@ const isThreeOfAKind = (values) => {
   } else {
     result = false;
   }
+
+  if (result && result.values[1] === result.values[2]){ // Full
+    result = {
+      score: 7,
+      values: [result.values[0], result.values[1]]
+    };
+  }
+
   return result;
 }
 
